@@ -48,6 +48,9 @@ abstract class AppFlowyKeyboardService {
 
   /// Unregister interceptor
   void unregisterInterceptor(AppFlowyKeyboardServiceInterceptor interceptor);
+
+  /// NHANNT 27Sep2024 => reset compose seen tap up on android make compose error
+  void resetTextInputCompose();
 }
 
 /// [AppFlowyKeyboardServiceInterceptor] is used to intercept the keyboard service.

@@ -611,6 +611,8 @@ class _MobileSelectionServiceWidgetState
       return;
     }
 
+    // NHANNT 27Sep2024 => reset compose seen tap input android make compose error
+    editorState.service.keyboardService?.resetTextInputCompose();
     editorState.updateSelectionWithReason(
       Selection.collapsed(position),
       reason: SelectionUpdateReason.uiEvent,
@@ -637,6 +639,9 @@ class _MobileSelectionServiceWidgetState
     dragMode = MobileSelectionDragMode.cursor;
     _panStartSelection = selection;
     _lastPanOffset.value = offset;
+
+    /// NHANNT 27Sep2024 => reset compose seen tap input android make compose error
+    editorState.service.keyboardService?.resetTextInputCompose();
 
     editorState.updateSelectionWithReason(
       selection,

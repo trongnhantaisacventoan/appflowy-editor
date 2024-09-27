@@ -173,6 +173,11 @@ class DeltaTextInputService extends TextInputService with DeltaTextInputClient {
       }
     }
   }
+
+  @override
+  void modifyComposeTextRange(TextRange? range) {
+    // TODO: implement composingTextRangeV2
+  }
 }
 
 const String _whitespace = ' ';

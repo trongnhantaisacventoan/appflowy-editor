@@ -23,6 +23,9 @@ abstract class TextInputService {
   final ContentInsertionConfiguration? contentInsertionConfiguration;
 
   TextRange? get composingTextRange;
+
+  void modifyComposeTextRange(TextRange? range);
+
   bool get attached;
 
   void updateCaretPosition(Size size, Matrix4 transform, Rect rect);

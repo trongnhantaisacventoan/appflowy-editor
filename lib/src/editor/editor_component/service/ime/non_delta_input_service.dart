@@ -125,6 +125,11 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
   }
 
   @override
+  void modifyComposeTextRange(TextRange? range) {
+    composingTextRange = range;
+  }
+
+  @override
   void close() {
     keepEditorFocusNotifier.reset();
     currentTextEditingValue = null;

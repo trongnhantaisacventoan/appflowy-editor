@@ -269,6 +269,12 @@ class KeyboardServiceWidgetState extends State<KeyboardServiceWidget>
     return null;
   }
 
+  /// NHANNT 27Sep2024 => reset compose seen tap input android make compose error
+  @override
+  void resetTextInputCompose() {
+    textInputService.modifyComposeTextRange(TextRange.empty);
+  }
+
   void _onFocusChanged() {
     AppFlowyEditorLog.editor.debug(
       'keyboard service - focus changed: ${focusNode.hasFocus}}',
