@@ -53,6 +53,17 @@ Future<void> onNonTextUpdate(
         ),
       );
     }
+  } else if (PlatformExtension.isAndroid) {
+    if (selection != null &&
+        nonTextUpdate.composing == TextRange.empty &&
+        nonTextUpdate.selection.isCollapsed) {
+      editorState.selection = Selection.collapsed(
+        Position(
+          path: selection.start.path,
+          offset: nonTextUpdate.selection.start,
+        ),
+      );
+    }
   }
 }
 
