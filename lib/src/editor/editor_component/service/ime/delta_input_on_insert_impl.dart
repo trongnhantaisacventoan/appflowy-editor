@@ -71,7 +71,9 @@ Future<void> onInsert(
     ),
   );
 
-  final transaction = editorState.transaction
+  final transaction = editorState.transaction;
+
+  transaction
     ..insertText(
       node,
       selection.startIndex,
@@ -81,4 +83,9 @@ Future<void> onInsert(
     )
     ..afterSelection = afterSelection;
   await editorState.apply(transaction);
+
+  // NHANNT Example auolink => need make character shortcut
+  // if (textInserted == ' ') {
+  //   autoLinkCurrentSelection(editorState);
+  // }
 }
