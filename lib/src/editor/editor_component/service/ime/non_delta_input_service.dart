@@ -50,6 +50,7 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
   Future<void> apply(List<TextEditingDelta> deltas) async {
     final formattedDeltas = deltas.map((e) => e.format()).toList();
     for (final delta in formattedDeltas) {
+      _updateDeleting(delta);
       _updateComposing(delta);
 
       if (delta is TextEditingDeltaInsertion) {
@@ -237,6 +238,21 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
           false,
     );
     contentInsertionConfiguration?.onContentInserted.call(content);
+  }
+
+  /// NHANNT 28Sep2024 Fixed issue long backspace on mobile to delete -> enter text carret move to begin
+  void _updateDeleting(TextEditingDelta delta) {
+    if (delta is TextEditingDeltaDeletion) {
+      if (delta.textDeleted.isEmpty &&
+          delta.deletedRange.isCollapsed &&
+          delta.deletedRange.start == 0) {
+        var newText = currentTextEditingValue!.format();
+        _textInputConnection!
+          ..setEditingState(newText)
+          ..show();
+        currentTextEditingValue = newText;
+      }
+    }
   }
 
   void _updateComposing(TextEditingDelta delta) {
