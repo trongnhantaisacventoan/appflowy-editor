@@ -116,11 +116,47 @@ class EditorState {
   final PropertyValueNotifier<List<RemoteSelection>> remoteSelections =
       PropertyValueNotifier<List<RemoteSelection>>([]);
 
+  /// NHANNT 28Sep2024 Keep style on new line
+  bool keepStyleOnNewLine = true;
+
   /// Sets the selection of the editor.
   set selection(Selection? value) {
     // clear the toggled style when the selection is changed.
     if (selectionNotifier.value != value) {
-      _toggledStyle.clear();
+      bool clearStyle = true;
+
+      /// NHANNT Keep style on new line
+      if (keepStyleOnNewLine) {
+        if (value != null) {
+          final node = getNodeAtPath(value.start.path);
+          if (node?.delta != null && node!.delta!.isEmpty) {
+            if (node.previous?.delta != null) {
+              var prevDelta = node.previous!.delta;
+              Map<String, dynamic>? prevAttribute;
+              if (prevDelta != null) {
+                prevAttribute = prevDelta.last.attributes;
+                var lastToggle = {..._toggledStyle};
+                _toggledStyle.clear();
+                if (prevAttribute != null) {
+                  prevAttribute.forEach((k, v) {
+                    if (!lastToggle.containsKey(k)) {
+                      _toggledStyle[k] = v;
+                    } else {
+                      _toggledStyle[k] = lastToggle[k];
+                    }
+                  });
+                  toggledStyleNotifier.value = {..._toggledStyle};
+                  clearStyle = false;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if (clearStyle) {
+        _toggledStyle.clear();
+      }
     }
 
     // reset slice flag
