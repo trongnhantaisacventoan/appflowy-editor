@@ -139,10 +139,12 @@ class EditorState {
                 _toggledStyle.clear();
                 if (prevAttribute != null) {
                   prevAttribute.forEach((k, v) {
-                    if (!lastToggle.containsKey(k)) {
-                      _toggledStyle[k] = v;
-                    } else {
-                      _toggledStyle[k] = lastToggle[k];
+                    if (AppFlowyRichTextKeys.supportToggled.contains(k)) {
+                      if (!lastToggle.containsKey(k)) {
+                        _toggledStyle[k] = v;
+                      } else {
+                        _toggledStyle[k] = lastToggle[k];
+                      }
                     }
                   });
                   toggledStyleNotifier.value = {..._toggledStyle};
