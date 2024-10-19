@@ -28,6 +28,13 @@ Future<void> onReplace(
       return;
     }
 
+    /// TODO NHANNT WTF khi replace thì xoá \n dẫn đến việc khi mà nhập sai chính tả xong enter nó
+    /// bị mất selection
+    /// nếu bỏ \n đi mà ko thay đổi selection thì sẽ bị issue selection sai
+    /// VD: "Môt" xong enter nó sẽ chuyển thành replace ôt với ổ + \n.
+    /// Suy nghĩ xem cái hàm check ios này có cân thiết không vậy
+
+    var diff = 0;
     if (PlatformExtension.isIOS) {
       // remove the trailing '\n' when pressing the return key
       if (replacement.replacementText.endsWith('\n')) {
@@ -39,13 +46,14 @@ Future<void> onReplace(
           selection: replacement.selection,
           composing: replacement.composing,
         );
+        diff = 0;
       }
     }
 
     final node = editorState.getNodesInSelection(selection).first;
     final transaction = editorState.transaction;
     final start = replacement.replacedRange.start;
-    final length = replacement.replacedRange.end - start;
+    final length = replacement.replacedRange.end - start - diff;
     final afterSelection = Selection(
       start: Position(
         path: node.path,
