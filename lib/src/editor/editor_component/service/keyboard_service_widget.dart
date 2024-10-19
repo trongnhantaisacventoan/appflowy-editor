@@ -319,6 +319,7 @@ class KeyboardServiceWidgetState extends State<KeyboardServiceWidget>
     if (node == null) {
       return;
     }
+
     final renderBox = node.renderBox;
     final selectable = node.selectable;
     if (renderBox != null && selectable != null) {

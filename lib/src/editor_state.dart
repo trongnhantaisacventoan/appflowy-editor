@@ -133,7 +133,7 @@ class EditorState {
             if (node.previous?.delta != null) {
               var prevDelta = node.previous!.delta;
               Map<String, dynamic>? prevAttribute;
-              if (prevDelta != null) {
+              if (prevDelta != null && prevDelta.isNotEmpty) {
                 prevAttribute = prevDelta.last.attributes;
                 var lastToggle = {..._toggledStyle};
                 _toggledStyle.clear();

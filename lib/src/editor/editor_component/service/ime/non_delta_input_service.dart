@@ -71,6 +71,7 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
     TextInputConfiguration configuration,
   ) {
     final formattedValue = textEditingValue.format();
+
     if (!formattedValue.isValid() ||
         currentTextEditingValue == formattedValue) {
       return;
@@ -113,10 +114,11 @@ class NonDeltaTextInputService extends TextInputService with TextInputClient {
     final deltas = getTextEditingDeltas(currentTextEditingValue, value);
     // On mobile, the IME will send a lot of updateEditingValue events, so we
     // need to debounce it to combine them together.
+
     Debounce.debounce(
       debounceKey,
       PlatformExtension.isMobile
-          ? const Duration(milliseconds: 10)
+          ? const Duration(milliseconds: 1)
           : Duration.zero,
       () {
         currentTextEditingValue = value;
